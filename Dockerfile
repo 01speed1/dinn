@@ -1,4 +1,5 @@
-FROM docker:dind
+#FROM docker:dind
+FROM alpine:3.11
 
 ENV NODE_VERSION 16.3.0
 
@@ -95,6 +96,8 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   && yarn --version
 
 COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+
+RUN chmod 777 /usr/local/bin/docker-entrypoint.sh \
+    && ln -s /usr/local/bin/docker-entrypoint.sh /
 
 CMD [ "node" ]
